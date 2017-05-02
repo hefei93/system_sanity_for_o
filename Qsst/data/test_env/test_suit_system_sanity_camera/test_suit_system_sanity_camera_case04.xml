@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test_case dependency="" description="Switch between camera and camcorder for several times" enable="0" entry="test_case_main" name="test_suit_system_sanity_camera_case04" relative_suits="">
+</test_case>

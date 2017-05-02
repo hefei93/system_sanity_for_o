@@ -1,0 +1,5 @@
+export PYTHONHOME=/data/python_env/com.googlecode.pythonforandroid/files/python:/vendor
+export PYTHONPATH=/data/python_env/extras/python:/vendor/lib:
+export TEMP=/data/python_env/extras/python/tmp
+export PYTHON_EGG_CACHE=/data/python_env/extras/python/tmp
+/data/python_env/com.googlecode.pythonforandroid/files/python/bin/python "$@"

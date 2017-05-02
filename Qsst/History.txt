@@ -1,0 +1,82 @@
+2016/6/14:  adapting to Android N, and update version to 2.0.2
+
+2015/3/5: change to backup/restore on real external SD
+
+
+
+XMAO/ZHIBINW/SHIJUNZ/SHIBOM
+2014.10.22 QSST support L
+
+1 python4android -- recompiled fix PIE
+
+2 remove some .so from python lib path  fix link lib 64-bit
+
+3 qsst_wrapper.sh : exec app_process32 /system/bin com.android.qsst.QsstSuperDaemonService \&
+10-22 16:28:48.787 D/AndroidRuntime( 4735): >>>>>> AndroidRuntime START com.android.internal.os.RuntimeInit <<<<<<
+
+10-22 16:28:48.790 D/AndroidRuntime( 4735): CheckJNI is OFF
+
+10-22 16:28:48.846 E/appproc ( 4735): ERROR: could not find class 'com.android.qsst.QsstSuperDaemonService'
+
+10-22 16:28:48.846 F/art     ( 4735): art/runtime/thread.cc:1105] No pending exception expected: java.lang.ClassNotFoundException: Didn't find class "com.android.qsst.QsstSuperDaemonService" on path: DexPathList[[directory "."],nativeLibraryDirectories=[/vendor/lib, /system/lib]]
+
+10-22 16:28:48.847 F/art     ( 4735): art/runtime/thread.cc:1105]   at java.lang.Class dalvik.system.BaseDexClassLoader.findClass(java.lang.String) (BaseDexClassLoader.java:56)
+
+10-22 16:28:48.847 F/art     ( 4735): art/runtime/thread.cc:1105]   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String, boolean) (ClassLoader.java:511)
+
+10-22 16:28:48.847 F/art     ( 4735): art/runtime/thread.cc:1105]   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String) (ClassLoader.java:469)
+
+10-22 16:28:48.847 F/art     ( 4735): art/runtime/thread.cc:1105] 
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282] Runtime aborting...
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282] Aborting thread:
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282] "main" prio=5 tid=1 Runnable
+
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282]   native: #17 pc 00001770  /system/bin/app_process32 (???)
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282]   (no managed stack frames)
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282] Pending exception java.lang.ClassNotFoundException thrown by 'unknown throw location'
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282] java.lang.ClassNotFoundException: Didn't find class "com.android.qsst.QsstSuperDaemonService" on path: DexPathList[[directory "."],nativeLibraryDirectories=[/vendor/lib, /system/lib]]
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282]   at java.lang.Class dalvik.system.BaseDexClassLoader.findClass(java.lang.String) (BaseDexClassLoader.java:56)
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282]   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String, boolean) (ClassLoader.java:511)
+
+10-22 16:28:49.148 F/art     ( 4735): art/runtime/runtime.cc:282]   at java.lang.Class java.lang.ClassLoader.loadClass(java.lang.String) (ClassLoader.java:469)
+
+
+2 qsst_super_daemon.jar  remove LD_LIbrary_PATH
+//mOut.writeBytes("export LD_LIBRARY_PATH=/vendor/lib:/system/lib\n");
+10-22 16:57:23.565 W/linker ( 4292): could not load library "libsigchain.so" from LD_PRELOAD for "/system/bin/sh"; caused by "libsigchain.so" is 32-bit instead of 64-bit
+10-22 16:57:23.565 W/linker ( 4292): could not load library "libNimsWrap.so" from LD_PRELOAD for "/system/bin/sh"; caused by "libNimsWrap.so" is 32-bit instead of 64-bit
+
+3 su  //recompile 
+fix adb shell su --- su PIE problem.
+so we remove the ADB_ID AND SYSTEM_ID in the system/su.c/...,recomplie and push.
+for search not test_env PATH..
+
+4 QSST.apk // recompile  --- TODO ,WORKAROUND
+QsstService.java :
++ int mSubscription = 0;
+
+
+5 update.sh -- remove chmod/grep/cp  -- they will PIE
+
+6 hard code fix ... getTask in L platform , it remove a para....
+getActivityName() always return lanucher -- 
+
+7 platform_check.py  -- hard code..
+def get_platform_info():    
+    elif(sysInfo == 'Linux'):
+        if(platformInfo.find('arm') >= 0):
+            return sysInfo + '-Phone'
+        else:
+            return sysInfo + '-Phone' // TODO
+    else:
+        return ''
+    '''

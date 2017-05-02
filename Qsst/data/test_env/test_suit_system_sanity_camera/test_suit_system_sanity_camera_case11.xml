@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test_case dependency="" description="Take snapshot with random HDR on/off" enable="0" entry="test_case_main" name="test_suit_system_sanity_camera_case11" relative_suits="">
+</test_case>
